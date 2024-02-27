@@ -158,7 +158,7 @@ macro_rules! make_timer {
 
                 // Configure and enable half-period interrupt
                 $timer.ccr(1).write(|r| r.set_ccr($bits::MAX - ($bits::MAX >> 1)));
-                $timer.dier().modify(|r| r.set_ccie(2, true));
+                $timer.dier().modify(|r| r.set_ccie(1, true));
 
                 // Trigger an update event to load the prescaler value to the clock.
                 $timer.egr().write(|r| r.set_ug(true));
@@ -261,11 +261,11 @@ macro_rules! make_timer {
             }
 
             fn enable_timer() {
-                $timer.dier().modify(|r| r.set_ccie(1, true));
+                $timer.dier().modify(|r| r.set_ccie(0, true));
             }
 
             fn disable_timer() {
-                $timer.dier().modify(|r| r.set_ccie(1, false));
+                $timer.dier().modify(|r| r.set_ccie(0, false));
             }
 
             fn on_interrupt() {
