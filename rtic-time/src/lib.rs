@@ -125,8 +125,8 @@ impl<Mono: Monotonic> TimerQueue<Mono> {
     /// It's always safe to call, but it must only be called from the interrupt of the
     /// monotonic timer for correct operation.
     pub unsafe fn on_monotonic_interrupt(&self) {
-        Mono::clear_compare_flag();
         Mono::on_interrupt();
+        Mono::clear_compare_flag();
 
         loop {
             let mut release_at = None;
