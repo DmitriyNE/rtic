@@ -253,7 +253,7 @@ macro_rules! make_timer {
             }
 
             fn clear_compare_flag() {
-                $timer.sr().modify(|r| r.set_ccif(1, false));
+                $timer.sr().modify(|r| r.set_ccif(0, false));
             }
 
             fn pend_interrupt() {
