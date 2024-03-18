@@ -249,11 +249,14 @@ macro_rules! make_timer {
                     Some(_x) => 0, // Will overflow
                 };
 
-                $timer.ccr(0).write(|r| r.set_ccr(val));
+                $timer.ccr(0).write(|r| r.set_ccr(val.into()));
             }
 
             fn clear_compare_flag() {
-                $timer.sr().modify(|r| r.set_ccif(0, false));
+                $timer.sr().write(|w| {
+                    w.0 = $bits::MAX.into();
+                    w.set_ccif(0, false);
+                })
             }
 
             fn pend_interrupt() {
@@ -290,7 +293,7 @@ macro_rules! make_timer {
 make_timer!(Tim2, TIM2, u32, TIMER2_OVERFLOWS, TIMER2_TQ);
 
 #[cfg(feature = "stm32_tim3")]
-make_timer!(Tim3, TIM3, u16, TIMER3_OVERFLOWS, TIMER3_TQ);
+make_timer!(Tim3, TIM3, u32, TIMER3_OVERFLOWS, TIMER3_TQ);
 
 #[cfg(feature = "stm32_tim4")]
 make_timer!(Tim4, TIM4, u16, TIMER4_OVERFLOWS, TIMER4_TQ);
