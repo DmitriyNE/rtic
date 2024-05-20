@@ -35,7 +35,7 @@
 //! ```
 
 use crate::{Monotonic, TimeoutError, TimerQueue};
-use atomic_polyfill::{AtomicU64, Ordering};
+use portable_atomic::{AtomicU64, Ordering};
 pub use fugit::{self, ExtU64, ExtU64Ceil};
 use rtic_time::half_period_counter::calculate_now;
 use stm32_metapac as pac;
